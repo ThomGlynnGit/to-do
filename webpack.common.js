@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default {
     entry: {
-        app: "./src/index.js",
+        app: "./src/scripts/index.js",
     },
     output: {
         filename: "main.js",
