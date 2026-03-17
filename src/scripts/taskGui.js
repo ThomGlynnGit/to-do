@@ -38,8 +38,27 @@ function addTaskGui(){
     descriptContainer.appendChild(descriptLabel)
     descriptContainer.appendChild(descriptInput)
 
+    //due date field
+    const today = new Date()
+    const dateContainer = document.createElement("div")
+    dateContainer.className = "input-container"
+    const dateInput = document.createElement("input")
+    dateInput.setAttribute("type","date")
+    dateInput.setAttribute("name","date")
+    dateInput.setAttribute("min",today.toISOString().split("T")[0])
+    dateInput.setAttribute("id","date")
+    dateInput.className = "date-input"
+    const dateLabel = document.createElement("label")
+    dateLabel.setAttribute("for","date")
+    dateLabel.textContent = "Due date:"
+    dateLabel.className = "form-label"
+    dateContainer.appendChild(dateLabel)
+    dateContainer.appendChild(dateInput)
+
+
     taskForm.appendChild(titleContainer)
     taskForm.appendChild(descriptContainer)
+    taskForm.appendChild(dateContainer)
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(taskForm)
 
