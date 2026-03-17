@@ -8,6 +8,21 @@ function addTaskGui(){
 
     //text inputs
 
+    //title field
+    const titleContainer = document.createElement("div")
+    titleContainer.className = "input-container"
+    const titleInput = document.createElement("input")
+    titleInput.setAttribute("type","text")
+    titleInput.setAttribute("name","title")
+    titleInput.setAttribute("id","title")
+    titleInput.className = "title-input"
+    const titleLabel = document.createElement("label")
+    titleLabel.setAttribute("for","title")
+    titleLabel.textContent = "Title:"
+    titleLabel.className = "form-label"
+    titleContainer.appendChild(titleLabel)
+    titleContainer.appendChild(titleInput)
+
     //description field
     const descriptContainer = document.createElement("div")
     descriptContainer.className = "input-container"
@@ -23,6 +38,7 @@ function addTaskGui(){
     descriptContainer.appendChild(descriptLabel)
     descriptContainer.appendChild(descriptInput)
 
+    taskForm.appendChild(titleContainer)
     taskForm.appendChild(descriptContainer)
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(taskForm)
