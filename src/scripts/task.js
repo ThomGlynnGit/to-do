@@ -97,7 +97,6 @@ class Task {
             this._checked = bool;
         }
     }
-
 }
 
 export default Task;
