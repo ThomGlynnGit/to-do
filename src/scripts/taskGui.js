@@ -40,11 +40,13 @@ function addTaskGui(){
 
     //due date field
     const today = new Date()
+    today.setHours(0,0,0,0)
     const dateContainer = document.createElement("div")
     dateContainer.className = "input-container"
     const dateInput = document.createElement("input")
     dateInput.setAttribute("type","date")
     dateInput.setAttribute("name","date")
+    //convert date to string, remove time from end of string
     dateInput.setAttribute("min",today.toISOString().split("T")[0])
     dateInput.setAttribute("id","date")
     dateInput.className = "date-input"
@@ -55,10 +57,81 @@ function addTaskGui(){
     dateContainer.appendChild(dateLabel)
     dateContainer.appendChild(dateInput)
 
+    //priority field
+    const priorityContainer = document.createElement("div")
+    priorityContainer.className = "input-container"
+    const priorityInput = document.createElement("input")
+    priorityInput.setAttribute("type","number")
+    priorityInput.setAttribute("name","priority")
+    priorityInput.setAttribute("min","1")
+    priorityInput.setAttribute("max","10")
+    priorityInput.setAttribute("id","priority")
+    priorityInput.className = "number-input"
+    const priorityLabel = document.createElement("label")
+    priorityLabel.setAttribute("for","priority")
+    priorityLabel.textContent = "Priority:"
+    priorityLabel.className = "form-label"
+    priorityContainer.appendChild(priorityLabel)
+    priorityContainer.appendChild(priorityInput)
+
+    //notes field
+    const notesContainer = document.createElement("div")
+    notesContainer.className = "input-container"
+    const notesInput = document.createElement("textarea")
+    notesInput.setAttribute("name","notes")
+    notesInput.setAttribute("rows","5")
+    notesInput.setAttribute("cols","33")
+    notesInput.setAttribute("id","notes")
+    notesInput.className = "text-input"
+    const notesLabel = document.createElement("label")
+    notesLabel.setAttribute("for","notes")
+    notesLabel.textContent = "Notes:"
+    notesLabel.className = "form-label"
+    notesContainer.appendChild(notesLabel)
+    notesContainer.appendChild(notesInput)
+
+    //clear button
+    const clearBtn = document.createElement("button")
+    clearBtn.setAttribute("type","button")
+    clearBtn.textContent = "Clear"
+    clearBtn.className = "button clear"
+
+    clearBtn.addEventListener("click", () => {
+        titleInput.value = ""
+        descriptInput.value = ""
+        dateInput.value = ""
+        priorityInput.value = ""
+        notesInput.value = ""
+    })
+
+    //submit button
+    const submitBtn = document.createElement("button")
+    submitBtn.setAttribute("type","submit")
+    submitBtn.textContent = "Submit"
+    submitBtn.className = "button submit"
+
+    submitBtn.addEventListener("submit", (e) => {
+        e.preventDefault()
+
+        const task = new Task(
+            titleInput.value,
+            descriptInput.value,
+            dateInput.value,
+            priorityInput.value,
+            notesInput.value,
+        )
+
+        console.log(task)
+    })
+
 
     taskForm.appendChild(titleContainer)
     taskForm.appendChild(descriptContainer)
     taskForm.appendChild(dateContainer)
+    taskForm.appendChild(priorityContainer)
+    taskForm.appendChild(notesContainer)
+    taskForm.appendChild(clearBtn)
+    taskForm.appendChild(submitBtn)
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(taskForm)
 
