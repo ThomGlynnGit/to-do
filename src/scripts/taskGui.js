@@ -1,7 +1,7 @@
 import Task from "./task.js"
 import { storageAvailable } from "./store.js"
 
-function addTaskGui(){
+export function addTaskGui(){
     //form creation
     const taskForm = document.createElement("form")
     taskForm.setAttribute("method","post")
@@ -139,4 +139,3 @@ function addTaskGui(){
 
 }
 
-export default addTaskGui
