@@ -1,4 +1,3 @@
-
 //check if storage type is available, return error if not
 export function storageAvailable(type){
     let storageAvailable
@@ -15,5 +14,13 @@ export function storageAvailable(type){
             storage &&
             storage.length !== 0
         )
+    }
+}
+
+export function itemExists(key){
+    if (!localStorage.getItem(key)){
+        return false
+    } else {
+        return true
     }
 }
