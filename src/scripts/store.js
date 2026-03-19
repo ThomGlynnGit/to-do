@@ -17,7 +17,7 @@ export function storageAvailable(type){
     }
 }
 
-export function itemExists(key){
+function itemExists(key){
     if (!localStorage.getItem(key)){
         return false
     } else {

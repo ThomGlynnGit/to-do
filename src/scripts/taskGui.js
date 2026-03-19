@@ -1,4 +1,5 @@
 import Task from "./task.js"
+import { storageAvailable } from "./store.js"
 
 function addTaskGui(){
     //form creation
@@ -106,7 +107,7 @@ function addTaskGui(){
     submitBtn.textContent = "Submit"
     submitBtn.className = "button submit"
 
-    submitBtn.addEventListener("submit", (e) => {
+    taskForm.addEventListener("submit", (e) => {
         e.preventDefault()
 
         const task = new Task(
@@ -117,7 +118,12 @@ function addTaskGui(){
             notesInput.value,
         )
 
-        console.log(task)
+        if(storageAvailable("localStorage")){
+            localStorage.setItem("task", JSON.stringify(task))
+        } 
+
+        taskForm.reset()
+        
     })
 
 
