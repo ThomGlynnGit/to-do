@@ -1,6 +1,6 @@
 //check if storage type is available, return error if not
 export function storageAvailable(type){
-    let storageAvailable
+    let storage
     try {
         storage = window[type]
         const x = "__storage_test__"
@@ -22,5 +22,17 @@ export function itemExists(key){
         return false
     } else {
         return true
+    }
+}
+
+export function getItems(key){
+    if(!itemExists(key)) return null
+
+    const item = localStorage.getItem(key)
+
+    try {
+        return JSON.parse(item)
+    } catch {
+        return item
     }
 }
