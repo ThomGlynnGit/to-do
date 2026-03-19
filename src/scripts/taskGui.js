@@ -1,5 +1,5 @@
 import Task from "./task.js"
-import { storageAvailable } from "./store.js"
+import { storageAvailable, getItems } from "./store.js"
 
 export function addTaskGui(){
     //form creation
@@ -110,13 +110,22 @@ export function addTaskGui(){
     taskForm.addEventListener("submit", (e) => {
         e.preventDefault()
 
-        const task = new Task(
-            titleInput.value,
-            descriptInput.value,
-            dateInput.value,
-            priorityInput.value,
-            notesInput.value,
-        )
+        const task = {}; 
+        
+        try {
+            task = new Task(
+                titleInput.value,
+                descriptInput.value,
+                dateInput.value,
+                priorityInput.value,
+                notesInput.value,
+            )
+        } catch (err) {
+            console.log(err.message)
+        }
+        
+
+        
 
         if(storageAvailable("localStorage")){
             localStorage.setItem("task", JSON.stringify(task))
@@ -139,3 +148,6 @@ export function addTaskGui(){
 
 }
 
+export function todayTasksGui(){
+    console.log(getItems("task"))
+}

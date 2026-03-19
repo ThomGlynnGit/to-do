@@ -17,10 +17,10 @@ class Task {
 
     set title(name){
         if(name.length < 0){
-            return "blank"
+            throw new Error("blank")
         }
         else if(name.length > 50){
-            return "long"
+            throw new Error("long")
         }
         else{
             this._title = name;
@@ -33,7 +33,7 @@ class Task {
 
     set description(info){
         if(info.length > 50){
-            return "long"
+            throw new Error("long")
         }
         else{
             this._description = info;
@@ -46,13 +46,13 @@ class Task {
 
     set dueDate(date){
         if(!isDate(date)){
-            return "notDate"
+            throw new Error("notDate")
         }
         else if(!isFuture(date)){
-            return "past"
+            throw new Error("past")
         }
         else if(!isValid(date)){
-            return "invalid"
+            throw new Error("invalid")
         }
         else{
             this._dueDate = lightFormat(date,"dd-MM-yy");
@@ -65,7 +65,7 @@ class Task {
 
     set priority(num){
         if(num === NaN || Number.isInteger(num)){
-            return "notNum"
+            throw new Error ("NotNum")
         }
         else{
             this._priority = num;
@@ -78,7 +78,7 @@ class Task {
 
     set notes(text){
         if(text.length > 140){
-            return "long"
+            throw new Error("long")
         }
         else{
             this._notes = text;
@@ -91,7 +91,7 @@ class Task {
 
     set checked(bool){
         if(typeof bool !== "boolean"){
-            return "notBool"
+            throw new Error("notBool")
         }
         else{
             this._checked = bool;

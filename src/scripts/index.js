@@ -1,5 +1,5 @@
 import "../style.css";
-import { addTaskGui } from "./taskGui";
+import { addTaskGui, todayTasksGui } from "./taskGui";
 
 addTaskGui()
-
+todayTasksGui()
