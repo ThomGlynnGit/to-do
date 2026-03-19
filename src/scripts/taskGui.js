@@ -97,11 +97,7 @@ function addTaskGui(){
     clearBtn.className = "button clear"
 
     clearBtn.addEventListener("click", () => {
-        titleInput.value = ""
-        descriptInput.value = ""
-        dateInput.value = ""
-        priorityInput.value = ""
-        notesInput.value = ""
+        taskForm.reset()
     })
 
     //submit button
