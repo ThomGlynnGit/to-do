@@ -8,6 +8,7 @@ class Task {
         this.priority = priority;
         this.notes = notes;
         this.checked = false;
+        this.id = crypto.randomUUID()
     }
 
     //getters and setters - validation is completed in setters

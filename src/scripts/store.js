@@ -33,6 +33,20 @@ export function getItems(key){
     try {
         return JSON.parse(item)
     } catch {
-        return item
+        throw new Error ("notFound")
+    }
+}
+
+export function addItem(key, data) {
+    try {
+        const existing = localStorage.getItem(key)
+        const items = existing ? JSON.parse(existing) : []
+        items.push(data)
+
+        localStorage.setItem(key, JSON.stringify(items))
+
+    } catch (e) {
+        console.error(e)
+        throw e
     }
 }

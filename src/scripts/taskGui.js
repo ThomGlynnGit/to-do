@@ -1,5 +1,5 @@
 import Task from "./task.js"
-import { storageAvailable, getItems } from "./store.js"
+import { storageAvailable, getItems, addItem} from "./store.js"
 
 export function addTaskGui(){
     //form creation
@@ -125,7 +125,7 @@ export function addTaskGui(){
         }
         
         if(storageAvailable("localStorage")){
-            localStorage.setItem("task", JSON.stringify(task))
+            addItem("task", task)
         } 
 
         taskForm.reset()
