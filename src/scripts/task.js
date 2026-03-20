@@ -98,6 +98,14 @@ class Task {
             this._checked = bool;
         }
     }
+
+    get id(){
+        return this._id
+    }
+
+    set id(num){
+        this._id = num
+    }
 }
 
 export default Task;
