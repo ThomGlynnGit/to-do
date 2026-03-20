@@ -110,13 +110,13 @@ export function addTaskGui(){
     taskForm.addEventListener("submit", (e) => {
         e.preventDefault()
 
-        const task = {}; 
+        let task = {}; 
         
         try {
             task = new Task(
                 titleInput.value,
                 descriptInput.value,
-                dateInput.value,
+                new Date(Date.parse(dateInput.value)),
                 priorityInput.value,
                 notesInput.value,
             )
@@ -124,9 +124,6 @@ export function addTaskGui(){
             console.log(err.message)
         }
         
-
-        
-
         if(storageAvailable("localStorage")){
             localStorage.setItem("task", JSON.stringify(task))
         } 
