@@ -1,3 +1,5 @@
+import { lightFormat } from "date-fns"
+
 //check if storage type is available, return error if not
 export function storageAvailable(type){
     let storage
@@ -49,4 +51,15 @@ export function addItem(key, data) {
         console.error(e)
         throw e
     }
+}
+
+export function getTodayItems(key){
+    const items = getItems(key)
+
+    const today = new Date()
+
+    const formatNow = lightFormat(today, "dd-MM-yy")
+
+    return items.filter((item) => item._dueDate === formatNow)
+
 }

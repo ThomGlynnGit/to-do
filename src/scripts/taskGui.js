@@ -1,5 +1,5 @@
 import Task from "./task.js"
-import { storageAvailable, getItems, addItem, sortByPriority} from "./store.js"
+import { storageAvailable, getItems, addItem, getTodayItems } from "./store.js"
 
 export function addTaskGui(){
     //form creation
@@ -148,9 +148,44 @@ export function addTaskGui(){
 }
 
 export function todayTasksGui(){
-    console.log(getItems("task"))
+    const todayTasks = getTodayItems("task")
 
-    const tasks = getItems("task")
-    const sortedTasks = tasks.sort((a,b) => a._priority - b._priority)
-    console.log(sortedTasks)
+    const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
+
+   
+    for(const task of sortedTasks){
+        const cardContainer = document.createElement("div")
+        cardContainer.className = "task-card"
+
+        const cardHeader = document.createElement("div")
+        cardHeader.className = "task-head"
+        cardContainer.appendChild(cardHeader)
+
+        const taskTitle = document.createElement("h3")
+        taskTitle.textContent = task._title
+        taskTitle.className = "card-title"
+        cardHeader.appendChild(taskTitle)
+
+        const taskDate = document.createElement("h4")
+        taskDate.textContent = task._dueDate
+        taskDate.className = "task-sub"
+        cardHeader.appendChild(taskDate)
+
+        const checkedContainer = document.createElement("div")
+        checkedContainer.className = "checkbox"
+        const checkbox = document.createElement("input")
+        checkbox.setAttribute("type","checkbox")
+        checkbox.id = "check-task"
+        const checkboxLabel = document.createElement("label")
+        checkboxLabel.htmlFor = "check-task"
+        checkboxLabel.className = "card-label"
+        checkboxLabel.textContent = "Completed?"
+        checkedContainer.appendChild(checkbox)
+        checkedContainer.appendChild(checkboxLabel)
+        cardHeader.appendChild(checkedContainer)
+
+        
+        const contentSpace = document.querySelector(".content")
+        contentSpace.appendChild(cardContainer)
+    }
 }

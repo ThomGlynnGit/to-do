@@ -1,4 +1,4 @@
-import { isDate, isFuture, isValid, lightFormat } from "date-fns"
+import { isDate, isValid, lightFormat } from "date-fns"
 
 class Task {
     constructor(title, description, dueDate, priority, notes){
@@ -48,9 +48,6 @@ class Task {
     set dueDate(date){
         if(!isDate(date)){
             throw new Error("notDate")
-        }
-        else if(!isFuture(date)){
-            throw new Error("past")
         }
         else if(!isValid(date)){
             throw new Error("invalid")
