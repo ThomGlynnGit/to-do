@@ -152,6 +152,12 @@ export function todayTasksGui(){
 
     const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
 
+    const cardsContainer = document.createElement("div")
+    cardsContainer.className = "cards-container"
+
+    const contentSpace = document.querySelector(".content")
+    contentSpace.appendChild(cardsContainer)
+
    
     for(const task of sortedTasks){
         //card container
@@ -228,7 +234,6 @@ export function todayTasksGui(){
         cardNotes.appendChild(notesContent)
 
         //append card to page
-        const contentSpace = document.querySelector(".content")
-        contentSpace.appendChild(cardContainer)
+        cardsContainer.appendChild(cardContainer)
     }
 }
