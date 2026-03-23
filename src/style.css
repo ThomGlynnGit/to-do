@@ -31,7 +31,12 @@ body {
 
 .filter-container {
     position: relative;
-    left: 10px
+    left: 10px;
+}
+
+.filter-container ul {
+    list-style-type: none;
+    padding: 0px;
 }
 
 /*header styles*/
