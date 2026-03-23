@@ -154,23 +154,28 @@ export function todayTasksGui(){
 
    
     for(const task of sortedTasks){
+        //card container
         const cardContainer = document.createElement("div")
         cardContainer.className = "task-card"
 
+        //card header container
         const cardHeader = document.createElement("div")
         cardHeader.className = "task-head"
         cardContainer.appendChild(cardHeader)
 
+        //task title
         const taskTitle = document.createElement("h3")
         taskTitle.textContent = task._title
         taskTitle.className = "card-title"
         cardHeader.appendChild(taskTitle)
 
+        //task due date
         const taskDate = document.createElement("h4")
         taskDate.textContent = task._dueDate
         taskDate.className = "task-sub"
         cardHeader.appendChild(taskDate)
 
+        //task completed checkbox
         const checkedContainer = document.createElement("div")
         checkedContainer.className = "checkbox"
         const checkbox = document.createElement("input")
@@ -184,7 +189,45 @@ export function todayTasksGui(){
         checkedContainer.appendChild(checkboxLabel)
         cardHeader.appendChild(checkedContainer)
 
+        //task information container
+        const cardInfo = document.createElement("div")
+        cardInfo.className = "task-info"
+        cardContainer.appendChild(cardInfo)
+
+        //task description
+        const taskDescription = document.createElement("p")
+        taskDescription.textContent = task._description
+        taskDescription.className = "task-text"
+        cardInfo.appendChild(taskDescription)
+
+        //task priority
+        const taskPriority = document.createElement("p")
+        taskPriority.textContent = task._priority
+        taskPriority.className = "priority"
+        cardInfo.appendChild(taskPriority)
+
+        //task notes container
+        const cardNotes = document.createElement("div")
+        cardNotes.className = "task-notes"
+        cardContainer.appendChild(cardNotes)
+
+        //task notes label
+        const notesLabel = document.createElement("h5")
+        notesLabel.textContent = "Notes:"
+        notesLabel.className = "task-sub"
+        cardNotes.appendChild(notesLabel)
         
+        //task notes content
+        const notesContent = document.createElement("p")
+        if(task._notes){
+            notesContent.textContent = task._notes
+        } else {
+            notesContent.textContent = "no notes recorded"
+        }
+        notesContent.className = "task-text"
+        cardNotes.appendChild(notesContent)
+
+        //append card to page
         const contentSpace = document.querySelector(".content")
         contentSpace.appendChild(cardContainer)
     }
