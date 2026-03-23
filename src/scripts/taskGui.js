@@ -158,7 +158,6 @@ export function todayTasksGui(){
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(cardsContainer)
 
-   
     for(const task of sortedTasks){
         //card container
         const cardContainer = document.createElement("div")
