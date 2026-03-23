@@ -1,5 +1,5 @@
 import Task from "./task.js"
-import { storageAvailable, getItems, addItem} from "./store.js"
+import { storageAvailable, getItems, addItem, sortByPriority} from "./store.js"
 
 export function addTaskGui(){
     //form creation
@@ -120,15 +120,17 @@ export function addTaskGui(){
                 priorityInput.value,
                 notesInput.value,
             )
+
+            if(storageAvailable("localStorage")){
+                addItem("task", task)
+            } 
+
+            taskForm.reset()
         } catch (err) {
             console.log(err.message)
         }
         
-        if(storageAvailable("localStorage")){
-            addItem("task", task)
-        } 
-
-        taskForm.reset()
+       
         
     })
 
@@ -147,4 +149,8 @@ export function addTaskGui(){
 
 export function todayTasksGui(){
     console.log(getItems("task"))
+
+    const tasks = getItems("task")
+    const sortedTasks = tasks.sort((a,b) => a._priority - b._priority)
+    console.log(sortedTasks)
 }
