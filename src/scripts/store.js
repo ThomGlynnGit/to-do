@@ -56,20 +56,35 @@ export function addItem(key, data) {
 export function getTodayItems(key){
     const items = getItems(key)
 
-    const today = new Date()
+    if(items){
+        const today = new Date()
 
-    const formatNow = lightFormat(today, "dd-MM-yy")
+        const formatNow = lightFormat(today, "dd-MM-yy")
 
-    return items.filter((item) => item._dueDate === formatNow)
-
+        return items.filter((item) => item._dueDate === formatNow)
+    }
 }
 
 export function getUpcomingItems(key){
     const items = getItems(key)
 
-    const today = new Date()
+    if(items){
+        const today = new Date()
+
+        const formatNow = lightFormat(today, "dd-MM-yy")
+
+        return items.filter((item) => item._dueDate > formatNow)
+    } 
+}
+
+export function getCompletedItems(key){
+    const items = getItems(key)
+
+    if(items){
+        const today = new Date()
 
     const formatNow = lightFormat(today, "dd-MM-yy")
 
-    return items.filter((item) => item._dueDate > formatNow)
+    return items.filter((item) => (item._dueDate < formatNow) || (item._checked === true))
+    }
 }

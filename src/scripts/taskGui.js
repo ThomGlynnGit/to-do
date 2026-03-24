@@ -1,5 +1,7 @@
 import Task from "./task.js"
-import { storageAvailable, addItem, getTodayItems, getUpcomingItems } from "./store.js"
+import { storageAvailable, addItem, 
+    getTodayItems, getUpcomingItems, 
+    getCompletedItems } from "./store.js"
 
 /* This function renders the form for 
 adding a task to local storage. Storage-based functions 
@@ -64,13 +66,24 @@ export function addTaskGui(){
     //priority field
     const priorityContainer = document.createElement("div")
     priorityContainer.className = "input-container"
-    const priorityInput = document.createElement("input")
-    priorityInput.setAttribute("type","number")
-    priorityInput.setAttribute("name","priority")
-    priorityInput.setAttribute("min","1")
-    priorityInput.setAttribute("max","10")
-    priorityInput.setAttribute("id","priority")
-    priorityInput.className = "number-input"
+    const priorityInput = document.createElement("select")
+    priorityInput.id = "priority"
+    const optionHolder = document.createElement("option")
+    optionHolder.value = ""
+    optionHolder.textContent = "-- Please select an option --"
+    priorityInput.appendChild(optionHolder)
+    const optionHigh = document.createElement("option")
+    optionHigh.value = "1"
+    optionHigh.textContent = "High"
+    priorityInput.appendChild(optionHigh)
+    const optionMid = document.createElement("option")
+    optionMid.value = "2"
+    optionMid.textContent = "Medium"
+    priorityInput.appendChild(optionMid)
+    const optionLow = document.createElement("option")
+    optionLow.value = "3"
+    optionLow.textContent = "High"
+    priorityInput.appendChild(optionLow)
     const priorityLabel = document.createElement("label")
     priorityLabel.setAttribute("for","priority")
     priorityLabel.textContent = "Priority:"
@@ -209,7 +222,8 @@ function renderTasks(taskList) {
 
         //task priority
         const taskPriority = document.createElement("p")
-        taskPriority.textContent = task._priority
+        taskPriority.textContent = task._priority == "1" ? "High" :
+            task._priority == "2" ? "Medium" : "Low"
         taskPriority.className = "priority"
         cardInfo.appendChild(taskPriority)
 
@@ -240,18 +254,49 @@ function renderTasks(taskList) {
 }
 
 export function todayTasksGui(){
+
     const todayTasks = getTodayItems("task")
 
-    const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
+    if(todayTasks){
+        const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
 
-    renderTasks(sortedTasks)
+        renderTasks(sortedTasks)
+    }  
 }
 
 export function upcomingTasksGui() {
     const upcomingTasks = getUpcomingItems("task")
 
-    const sortedTasks = upcomingTasks.sort((a,b) => a._priority - b._priority)
+    if(upcomingTasks){
+        const sortedTasks = upcomingTasks.sort((a, b) => {
+        const dateDiff = new Date(a._dueDate) - new Date(b._dueDate)
+
+        if (dateDiff !== 0) {
+            return dateDiff   // sort by date first
+        }
+
+        return a._priority - b._priority   // if same date, sort by priority
+        })
 
     renderTasks(sortedTasks)
+    }
 }
 
+export function completedTasksGui() {
+    const completedTasks = getCompletedItems("task")
+
+    if(completedTasks){
+        const sortedTasks = completedTasks.sort((a, b) => {
+        const dateDiff = new Date(a._dueDate) - new Date(b._dueDate)
+
+        if (dateDiff !== 0) {
+            return dateDiff   // sort by date first
+        }
+
+        return a._priority - b._priority   // if same date, sort by priority
+        })
+
+    renderTasks(sortedTasks)
+    }
+    
+}
