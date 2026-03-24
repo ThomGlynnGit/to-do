@@ -147,18 +147,14 @@ export function addTaskGui(){
 
 }
 
-export function todayTasksGui(){
-    const todayTasks = getTodayItems("task")
-
-    const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
-
+function renderTasks(taskList) {
     const cardsContainer = document.createElement("div")
     cardsContainer.className = "cards-container"
 
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(cardsContainer)
 
-    for(const task of sortedTasks){
+    for(const task of taskList){
         //card container
         const cardContainer = document.createElement("div")
         cardContainer.className = "task-card"
@@ -236,3 +232,12 @@ export function todayTasksGui(){
         cardsContainer.appendChild(cardContainer)
     }
 }
+
+export function todayTasksGui(){
+    const todayTasks = getTodayItems("task")
+
+    const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
+
+    renderTasks(sortedTasks)
+}
+
