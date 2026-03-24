@@ -1,4 +1,4 @@
-import { isDate, isValid, lightFormat } from "date-fns"
+import { isDate, isValid } from "date-fns"
 
 class Task {
     constructor(title, description, dueDate, priority, notes){
@@ -53,7 +53,7 @@ class Task {
             throw new Error("invalid")
         }
         else{
-            this._dueDate = lightFormat(date,"dd-MM-yy");
+            this._dueDate = date.toISOString().split("T")[0];
         }
     }
     

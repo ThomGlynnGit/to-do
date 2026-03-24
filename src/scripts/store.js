@@ -1,5 +1,3 @@
-import { lightFormat } from "date-fns"
-
 //check if storage type is available, return error if not
 export function storageAvailable(type){
     let storage
@@ -57,11 +55,9 @@ export function getTodayItems(key){
     const items = getItems(key)
 
     if(items){
-        const today = new Date()
+        const today = new Date().toISOString().split("T")[0]
 
-        const formatNow = lightFormat(today, "dd-MM-yy")
-
-        return items.filter((item) => item._dueDate === formatNow)
+        return items.filter((item) => item._dueDate === today)
     }
 }
 
@@ -69,11 +65,9 @@ export function getUpcomingItems(key){
     const items = getItems(key)
 
     if(items){
-        const today = new Date()
+        const today = new Date().toISOString().split("T")[0]
 
-        const formatNow = lightFormat(today, "dd-MM-yy")
-
-        return items.filter((item) => item._dueDate > formatNow)
+        return items.filter((item) => new Date(item._dueDate) > new Date(today))
     } 
 }
 
@@ -81,10 +75,8 @@ export function getCompletedItems(key){
     const items = getItems(key)
 
     if(items){
-        const today = new Date()
+        const today = new Date().toISOString().split("T")[0]
 
-    const formatNow = lightFormat(today, "dd-MM-yy")
-
-    return items.filter((item) => (item._dueDate < formatNow) || (item._checked === true))
+        return items.filter((item) => (new Date(item._dueDate) < new Date(today)) || (item._checked === true))
     }
 }

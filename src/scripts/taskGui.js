@@ -1,4 +1,5 @@
 import Task from "./task.js"
+import { lightFormat } from "date-fns"
 import { storageAvailable, addItem, 
     getTodayItems, getUpcomingItems, 
     getCompletedItems } from "./store.js"
@@ -82,7 +83,7 @@ export function addTaskGui(){
     priorityInput.appendChild(optionMid)
     const optionLow = document.createElement("option")
     optionLow.value = "3"
-    optionLow.textContent = "High"
+    optionLow.textContent = "Low"
     priorityInput.appendChild(optionLow)
     const priorityLabel = document.createElement("label")
     priorityLabel.setAttribute("for","priority")
@@ -191,7 +192,7 @@ function renderTasks(taskList) {
 
         //task due date
         const taskDate = document.createElement("h4")
-        taskDate.textContent = task._dueDate
+        taskDate.textContent = lightFormat(task._dueDate, "dd-MM-yy")
         taskDate.className = "task-sub"
         cardHeader.appendChild(taskDate)
 
@@ -266,11 +267,12 @@ export function todayTasksGui(){
 
 export function upcomingTasksGui() {
     const upcomingTasks = getUpcomingItems("task")
+    console.log(upcomingTasks)
 
     if(upcomingTasks){
         const sortedTasks = upcomingTasks.sort((a, b) => {
         const dateDiff = new Date(a._dueDate) - new Date(b._dueDate)
-
+        console.log(a._dueDate - b._dueDate)
         if (dateDiff !== 0) {
             return dateDiff   // sort by date first
         }
