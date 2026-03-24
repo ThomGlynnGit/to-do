@@ -1,6 +1,9 @@
 import Task from "./task.js"
-import { storageAvailable, getItems, addItem, getTodayItems } from "./store.js"
+import { storageAvailable, addItem, getTodayItems, getUpcomingItems } from "./store.js"
 
+/* This function renders the form for 
+adding a task to local storage. Storage-based functions 
+are imported from store.js */
 export function addTaskGui(){
     //form creation
     const taskForm = document.createElement("form")
@@ -147,6 +150,9 @@ export function addTaskGui(){
 
 }
 
+/* renders the task cards based 
+on a given list of tasks. Specific view functions
+are given below this function */
 function renderTasks(taskList) {
     const cardsContainer = document.createElement("div")
     cardsContainer.className = "cards-container"
@@ -237,6 +243,14 @@ export function todayTasksGui(){
     const todayTasks = getTodayItems("task")
 
     const sortedTasks = todayTasks.sort((a,b) => a._priority - b._priority)
+
+    renderTasks(sortedTasks)
+}
+
+export function upcomingTasksGui() {
+    const upcomingTasks = getUpcomingItems("task")
+
+    const sortedTasks = upcomingTasks.sort((a,b) => a._priority - b._priority)
 
     renderTasks(sortedTasks)
 }

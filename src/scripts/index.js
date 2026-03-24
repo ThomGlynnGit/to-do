@@ -1,7 +1,7 @@
 import "../css/style.css";
 import "../css/form.css";
 import "../css/tasks.css";
-import { addTaskGui, todayTasksGui } from "./taskGui";
+import { addTaskGui, todayTasksGui, upcomingTasksGui } from "./taskGui";
 
 const contentSpace = document.querySelector(".content")
 todayTasksGui()
@@ -18,5 +18,11 @@ const todayButton = document.querySelector("#today")
 todayButton.addEventListener("click", () => {
     contentSpace.innerHTML = ""
     todayTasksGui()
+})
+
+const upcomingButton = document.querySelector("#upcoming")
+upcomingButton.addEventListener("click", () => {
+    contentSpace.innerHTML = ""
+    upcomingTasksGui()
 })
 

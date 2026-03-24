@@ -63,3 +63,13 @@ export function getTodayItems(key){
     return items.filter((item) => item._dueDate === formatNow)
 
 }
+
+export function getUpcomingItems(key){
+    const items = getItems(key)
+
+    const today = new Date()
+
+    const formatNow = lightFormat(today, "dd-MM-yy")
+
+    return items.filter((item) => item._dueDate > formatNow)
+}
