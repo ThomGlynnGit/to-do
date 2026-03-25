@@ -37,4 +37,33 @@
     color: rgb(32, 17, 199);
 }
 
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.btn-container {
+    display: flex;
+    gap: 3px;
+}
+
+.edit {
+    background-color: rgb(123, 123, 183);
+    color: aliceblue;
+    border-radius: 6px;
+    border-style: none;
+    width: 50px;
+    height: 25px;
+}
+
+.delete {
+    background-color: rgb(178, 111, 111);
+    color: aliceblue;
+    border-radius: 6px;
+    border-style: none;
+    width: 50px;
+    height: 25px;
+}
+
 

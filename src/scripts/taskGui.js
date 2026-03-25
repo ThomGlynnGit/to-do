@@ -151,7 +151,6 @@ export function addTaskGui(){
         
     })
 
-
     taskForm.appendChild(titleContainer)
     taskForm.appendChild(descriptContainer)
     taskForm.appendChild(dateContainer)
@@ -262,9 +261,13 @@ function renderTasks(taskList) {
         cardInfo.appendChild(taskPriority)
 
         //task notes container
+        const cardFooter = document.createElement("div")
+        cardFooter.className = "card-footer"
+        cardContainer.appendChild(cardFooter)
+
         const cardNotes = document.createElement("div")
-        cardNotes.className = "task-notes"
-        cardContainer.appendChild(cardNotes)
+        cardNotes.className = "card-notes"
+        cardFooter.appendChild(cardNotes)
 
         //task notes label
         const notesLabel = document.createElement("h5")
@@ -282,6 +285,21 @@ function renderTasks(taskList) {
         notesContent.className = "task-text"
         cardNotes.appendChild(notesContent)
 
+        //edit and delete buttons
+        const actionsContainer = document.createElement("div")
+        actionsContainer.className = "btn-container"
+        
+
+        const editBtn = document.createElement("button")
+        editBtn.className = "edit"
+        editBtn.textContent = "edit"
+        actionsContainer.appendChild(editBtn)
+        const deleteBtn = document.createElement("button")
+        deleteBtn.className = "delete"
+        deleteBtn.textContent = "delete"
+        actionsContainer.appendChild(deleteBtn)
+        cardFooter.appendChild(actionsContainer)
+        
         //append card to page
         cardsContainer.appendChild(cardContainer)
     }
