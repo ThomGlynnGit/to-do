@@ -188,7 +188,15 @@ function renderTasks(taskList) {
         const taskTitle = document.createElement("h3")
         taskTitle.textContent = task._title
         taskTitle.className = "card-title"
-        cardHeader.appendChild(taskTitle)
+        if(task._checked === true){
+            const strike = document.createElement("s")
+            strike.id = "s"+task._id
+            strike.appendChild(taskTitle)
+            cardHeader.appendChild(strike)
+        } else {
+            cardHeader.appendChild(taskTitle)
+        }
+        
 
         //task due date
         const taskDate = document.createElement("h4")
@@ -202,6 +210,9 @@ function renderTasks(taskList) {
         const checkbox = document.createElement("input")
         checkbox.setAttribute("type","checkbox")
         checkbox.id = "check-task"
+        if(task._checked === true){
+            checkbox.checked = true
+        }
         const checkboxLabel = document.createElement("label")
         checkboxLabel.htmlFor = "check-task"
         checkboxLabel.className = "card-label"
@@ -216,7 +227,7 @@ function renderTasks(taskList) {
                 strike.id = "s"+task._id
                 cardHeader.replaceChild(strike, taskTitle)
                 strike.appendChild(taskTitle)
-                
+
             } else {
                 task._checked = false
                 updateValue("task", task._id, "_checked", false)
