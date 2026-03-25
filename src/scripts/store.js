@@ -51,13 +51,26 @@ export function addItem(key, data) {
     }
 }
 
+export function updateValue(key, id, property, value) {
+    const items = getItems(key)
+
+    for(const item of items) {
+        if(id === item._id){
+            item[property] = value
+        }
+    }
+
+    localStorage.setItem(key, JSON.stringify(items))
+}
+
 export function getTodayItems(key){
     const items = getItems(key)
 
     if(items){
         const today = new Date().toISOString().split("T")[0]
 
-        return items.filter((item) => item._dueDate === today)
+        return items.filter((item) => item._dueDate === today 
+            && item._checked === false)
     }
 }
 
@@ -67,16 +80,18 @@ export function getUpcomingItems(key){
     if(items){
         const today = new Date().toISOString().split("T")[0]
 
-        return items.filter((item) => new Date(item._dueDate) > new Date(today))
+        return items.filter((item) => (new Date(item._dueDate) > new Date(today)) 
+            && item._checked === false)
     } 
 }
 
 export function getCompletedItems(key){
     const items = getItems(key)
-
+    
     if(items){
         const today = new Date().toISOString().split("T")[0]
 
-        return items.filter((item) => (new Date(item._dueDate) < new Date(today)) || (item._checked === true))
+        return items.filter((item) => (new Date(item._dueDate) < new Date(today)) 
+            || item._checked == true)
     }
 }

@@ -2,7 +2,7 @@ import Task from "./task.js"
 import { lightFormat } from "date-fns"
 import { storageAvailable, addItem, 
     getTodayItems, getUpcomingItems, 
-    getCompletedItems } from "./store.js"
+    getCompletedItems, updateValue } from "./store.js"
 
 /* This function renders the form for 
 adding a task to local storage. Storage-based functions 
@@ -206,6 +206,28 @@ function renderTasks(taskList) {
         checkboxLabel.htmlFor = "check-task"
         checkboxLabel.className = "card-label"
         checkboxLabel.textContent = "Completed?"
+
+        //add a strikethrough to title if checkbox is checked
+        checkbox.addEventListener("change", () => {
+            if(checkbox.checked){
+                task._checked = true
+                updateValue("task", task._id, "_checked", true)
+                const strike = document.createElement("s")
+                strike.id = "s"+task._id
+                cardHeader.replaceChild(strike, taskTitle)
+                strike.appendChild(taskTitle)
+                
+            } else {
+                task._checked = false
+                updateValue("task", task._id, "_checked", false)
+                const strike = document.querySelector("#s"+task._id)
+                strike.remove()
+                cardHeader.insertBefore(taskTitle, cardHeader.firstChild)
+
+                console.log(task)
+            }
+        })
+
         checkedContainer.appendChild(checkbox)
         checkedContainer.appendChild(checkboxLabel)
         cardHeader.appendChild(checkedContainer)
@@ -267,12 +289,11 @@ export function todayTasksGui(){
 
 export function upcomingTasksGui() {
     const upcomingTasks = getUpcomingItems("task")
-    console.log(upcomingTasks)
 
     if(upcomingTasks){
         const sortedTasks = upcomingTasks.sort((a, b) => {
         const dateDiff = new Date(a._dueDate) - new Date(b._dueDate)
-        console.log(a._dueDate - b._dueDate)
+  
         if (dateDiff !== 0) {
             return dateDiff   // sort by date first
         }
