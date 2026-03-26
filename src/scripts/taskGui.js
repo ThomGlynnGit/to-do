@@ -2,7 +2,8 @@ import Task from "./task.js"
 import { lightFormat } from "date-fns"
 import { storageAvailable, addItem, 
     getTodayItems, getUpcomingItems, 
-    getCompletedItems, updateValue, getItem } from "./store.js"
+    getCompletedItems, updateValue, getItem,
+    deleteItem } from "./store.js"
 
 /* This function renders the form for 
 adding a task to local storage. Storage-based functions 
@@ -536,7 +537,36 @@ function fillTaskCard(cardContainer, task){
         const deleteBtn = document.createElement("button")
         deleteBtn.className = "delete"
         deleteBtn.textContent = "delete"
+        
         actionsContainer.appendChild(deleteBtn)
+
+        deleteBtn.addEventListener("click", () => {
+            actionsContainer.innerHTML = ""
+
+            const confirmText = document.createElement("p")
+            confirmText.class = "confirm-text"
+            confirmText.textContent = "Are you sure?"
+            actionsContainer.appendChild(confirmText)
+
+            const keepBtn = document.createElement("button")
+            keepBtn.className = "posi-button"
+            keepBtn.textContent = "keep"
+            actionsContainer.appendChild(keepBtn)
+
+            keepBtn.addEventListener("click", () => {
+                updateTaskCard(task)
+            })
+
+            const confDeleteBtn = document.createElement("button")
+            confDeleteBtn.className = "delete"
+            confDeleteBtn.textContent = "delete"
+            actionsContainer.appendChild(confDeleteBtn)
+
+            confDeleteBtn.addEventListener("click", () => {
+                deleteItem("task", task._id)
+                cardContainer.remove()
+            })            
+        })
         cardFooter.appendChild(actionsContainer)
         
         //append card to page

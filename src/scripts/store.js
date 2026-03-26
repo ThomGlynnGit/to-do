@@ -81,6 +81,23 @@ export function updateValue(key, id, property, value) {
     localStorage.setItem(key, JSON.stringify(items))
 }
 
+export function deleteItem(key, id){
+    if(!itemExists(key)) return null
+
+    const items = localStorage.getItem(key)
+
+    try {
+        const parsed = JSON.parse(items)
+
+        const itemRemovedList = parsed.filter(item => item._id !== id)
+
+        localStorage.clear()
+        localStorage.setItem(key, JSON.stringify(itemRemovedList))
+    } catch {
+        throw new Error ("notFound")
+    }
+}
+
 export function getTodayItems(key){
     const items = getItems(key)
     
