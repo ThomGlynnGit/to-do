@@ -29,7 +29,7 @@ export function getItems(key){
     if(!itemExists(key)) return null
 
     const item = localStorage.getItem(key)
-
+    console.log(JSON.parse(item))
     try {
         return JSON.parse(item)
     } catch {
@@ -65,7 +65,7 @@ export function updateValue(key, id, property, value) {
 
 export function getTodayItems(key){
     const items = getItems(key)
-
+    
     if(items){
         const today = new Date().toISOString().split("T")[0]
 

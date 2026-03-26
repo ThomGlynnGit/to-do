@@ -8,6 +8,7 @@ import { storageAvailable, addItem,
 adding a task to local storage. Storage-based functions 
 are imported from store.js */
 export function addTaskGui(){
+    clearPage()
     //form creation
     const taskForm = document.createElement("form")
     taskForm.setAttribute("method","post")
@@ -128,6 +129,8 @@ export function addTaskGui(){
         e.preventDefault()
 
         let task = {}; 
+
+        console.log(new Date(Date.parse(dateInput.value)))
         
         try {
             task = new Task(
@@ -177,6 +180,7 @@ function renderTasks(taskList) {
         //card container
         const cardContainer = document.createElement("div")
         cardContainer.className = "task-card"
+        cardContainer.id = "c"+task._id
 
         //card header container
         const cardHeader = document.createElement("div")
@@ -294,6 +298,11 @@ function renderTasks(taskList) {
         editBtn.className = "edit"
         editBtn.textContent = "edit"
         actionsContainer.appendChild(editBtn)
+
+        editBtn.addEventListener("click", () => {
+            renderEditTask(task._id, task)
+        })
+
         const deleteBtn = document.createElement("button")
         deleteBtn.className = "delete"
         deleteBtn.textContent = "delete"
@@ -306,7 +315,7 @@ function renderTasks(taskList) {
 }
 
 export function todayTasksGui(){
-
+    clearPage()
     const todayTasks = getTodayItems("task")
 
     if(todayTasks){
@@ -317,6 +326,7 @@ export function todayTasksGui(){
 }
 
 export function upcomingTasksGui() {
+    clearPage()
     const upcomingTasks = getUpcomingItems("task")
 
     if(upcomingTasks){
@@ -335,6 +345,7 @@ export function upcomingTasksGui() {
 }
 
 export function completedTasksGui() {
+    clearPage()
     const completedTasks = getCompletedItems("task")
 
     if(completedTasks){
@@ -351,4 +362,175 @@ export function completedTasksGui() {
     renderTasks(sortedTasks)
     }
     
+}
+
+function clearPage(){
+    const contentSpace = document.querySelector(".content")
+    contentSpace.innerHTML = ""
+}
+
+function renderEditTask(id, task){
+    const cardContainer = document.querySelector("#c"+id)
+
+    cardContainer.textContent = ""
+
+    const taskForm = document.createElement("form")
+    taskForm.setAttribute("method","post")
+    taskForm.setAttribute("action","#")
+    cardContainer.appendChild(taskForm)
+
+    //card header container
+    const cardHeader = document.createElement("div")
+    cardHeader.className = "task-head"
+    taskForm.appendChild(cardHeader)
+
+    //task title
+    const titleInput = document.createElement("input")
+    titleInput.type = "text"
+    titleInput.id = "t"+task._id
+    titleInput.value = task._title
+    titleInput.className = "task-input"
+    cardHeader.appendChild(titleInput)
+
+    /* Task due date input - date select appears on
+    mouseover so that a placeholder can be shown */
+    const today = new Date()
+    today.setHours(0,0,0,0)
+    const dateInput = document.createElement("input")
+    dateInput.setAttribute("min",today.toISOString().split("T")[0])
+    console.log(task._dueDate)
+    dateInput.type = "date"
+    dateInput.id = "d"+task._id
+    dateInput.className = "task-sub"
+    
+    cardHeader.appendChild(dateInput)
+    dateInput.value = new Date(task._dueDate)
+        .toISOString()
+        .split("T")[0]
+
+    //task completed checkbox
+    const checkedContainer = document.createElement("div")
+    checkedContainer.className = "checkbox"
+    const checkbox = document.createElement("input")
+    checkbox.setAttribute("type","checkbox")
+    checkbox.className = "check-task"
+    if(task._checked === true){
+        checkbox.checked = true
+    }
+    const checkboxLabel = document.createElement("label")
+    checkboxLabel.className = "card-label"
+    checkboxLabel.id = "c"+task._id
+
+    checkboxLabel.appendChild(checkbox)
+    checkboxLabel.appendChild(document.createTextNode("Completed?"))
+    checkedContainer.appendChild(checkboxLabel)
+    cardHeader.appendChild(checkedContainer)
+
+    //task information container
+    const cardInfo = document.createElement("div")
+    cardInfo.className = "task-info"
+    cardContainer.appendChild(cardInfo)
+
+    //task description
+    const taskDescription = document.createElement("input")
+    taskDescription.type = "text"
+    taskDescription.id = "de"+task._id
+    taskDescription.value = task._description
+    taskDescription.className = "task-text"
+    cardInfo.appendChild(taskDescription)
+
+    //task priority
+    const priorityContainer = document.createElement("div")
+    priorityContainer.className = "input-container"
+    const priorityInput = document.createElement("select")
+    priorityInput.id = "p"+task._id
+    const optionHolder = document.createElement("option")
+    optionHolder.value = task._priority
+    optionHolder.textContent = `-- ${task._priority == "1" ? "High" :
+            task._priority == "2" ? "Medium" : "Low"} --`
+    priorityInput.appendChild(optionHolder)
+    const optionHigh = document.createElement("option")
+    optionHigh.value = "1"
+    optionHigh.textContent = "High"
+    priorityInput.appendChild(optionHigh)
+    const optionMid = document.createElement("option")
+    optionMid.value = "2"
+    optionMid.textContent = "Medium"
+    priorityInput.appendChild(optionMid)
+    const optionLow = document.createElement("option")
+    optionLow.value = "3"
+    optionLow.textContent = "Low"
+    priorityInput.appendChild(optionLow)
+    
+    priorityContainer.appendChild(priorityInput)
+    cardInfo.appendChild(priorityContainer)
+
+    //task notes container
+    const cardFooter = document.createElement("div")
+    cardFooter.className = "card-footer"
+    cardContainer.appendChild(cardFooter)
+
+    const cardNotes = document.createElement("div")
+    cardNotes.className = "card-notes"
+    cardFooter.appendChild(cardNotes)
+
+    //task notes label
+    const notesLabel = document.createElement("h5")
+    notesLabel.textContent = "Notes:"
+    notesLabel.className = "task-sub"
+    cardNotes.appendChild(notesLabel)
+        
+    //task notes content
+    const notesContent = document.createElement("input")
+    if(task._notes){
+        notesContent.value = task._notes
+    } else {
+        notesContent.value = "no notes recorded"
+    }
+    notesContent.className = "task-text"
+    notesContent.id = "n"+task._id
+    cardNotes.appendChild(notesContent)
+
+    //save and cancel buttons
+    const actionsContainer = document.createElement("div")
+    actionsContainer.className = "btn-container"
+        
+    const saveBtn = document.createElement("button")
+    saveBtn.className = "save"
+    saveBtn.textContent = "save"
+    actionsContainer.appendChild(saveBtn)
+
+    //update task on save click, re-render correct item set
+    saveBtn.addEventListener("click", () => {
+        const today = new Date()
+        today.setHours(0,0,0,0)
+        const dateInput = document.querySelector("#d"+task._id)
+        const setDate = new Date(Date.parse(dateInput.value))
+        updateValue("task", task._id, "_title", titleInput.value)
+        updateValue("task", task._id, "_description", taskDescription.value)
+        updateValue("task", task._id, "_dueDate", setDate
+            .toISOString()
+            .split("T")[0])
+        updateValue("task", task._id, "_priority", priorityInput.value 
+            ? priorityInput.value : task._value)
+        updateValue("task", task._id, "_notes", notesContent.value)
+        updateValue("task", task._id, "_checked", checkbox.checked)
+        console.log(Date.parse(dateInput.value))
+        if(Date.parse(today) === Date.parse(dateInput.value)){
+            todayTasksGui()
+        } else if (Date.parse(today) < Date.parse(dateInput.value)) {
+            upcomingTasksGui()
+        } else {
+            completedTasksGui()
+        }
+        
+    })
+
+        const deleteBtn = document.createElement("button")
+        deleteBtn.className = "delete"
+        deleteBtn.textContent = "delete"
+        actionsContainer.appendChild(deleteBtn)
+        cardFooter.appendChild(actionsContainer)
+        
+
 }
