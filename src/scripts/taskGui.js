@@ -370,7 +370,7 @@ function renderEditTask(id, task){
     actionsContainer.className = "btn-container"
         
     const saveBtn = document.createElement("button")
-    saveBtn.className = "save"
+    saveBtn.className = "posi"
     saveBtn.textContent = "save"
     actionsContainer.appendChild(saveBtn)
 
@@ -553,7 +553,7 @@ function fillTaskCard(cardContainer, task){
             actionsContainer.appendChild(confirmText)
 
             const keepBtn = document.createElement("button")
-            keepBtn.className = "posi-button"
+            keepBtn.className = "posi"
             keepBtn.textContent = "keep"
             actionsContainer.appendChild(keepBtn)
 
