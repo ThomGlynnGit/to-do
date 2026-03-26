@@ -391,16 +391,20 @@ function renderEditTask(id, task){
         updateValue("task", task._id, "_checked", checkbox.checked)
         
         const updatedTask = getItem("task", task._id)
-        console.log(updatedTask)
+       
         updateTaskCard(updatedTask)
         
     })
 
-        const deleteBtn = document.createElement("button")
-        deleteBtn.className = "delete"
-        deleteBtn.textContent = "delete"
-        actionsContainer.appendChild(deleteBtn)
-        cardFooter.appendChild(actionsContainer)
+    const cancelBtn = document.createElement("button")
+    cancelBtn.className = "delete"
+    cancelBtn.textContent = "cancel"
+    actionsContainer.appendChild(cancelBtn)
+
+    cancelBtn.addEventListener("click", () => {
+        updateTaskCard(task)
+    })
+    cardFooter.appendChild(actionsContainer)
         
 
 }
