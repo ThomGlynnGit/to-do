@@ -37,6 +37,24 @@ export function getItems(key){
     }
 }
 
+export function getItem(key, id){
+    if(!itemExists(key)) return null
+
+    const items = localStorage.getItem(key)
+
+    try {
+        const parsed = JSON.parse(items)
+
+        for(const item of parsed){
+            if(item._id === id){
+                return item
+            } 
+        }
+    } catch {
+        throw new Error ("notFound")
+    }
+}
+
 export function addItem(key, data) {
     try {
         const existing = localStorage.getItem(key)

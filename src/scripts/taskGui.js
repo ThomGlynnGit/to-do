@@ -2,7 +2,7 @@ import Task from "./task.js"
 import { lightFormat } from "date-fns"
 import { storageAvailable, addItem, 
     getTodayItems, getUpcomingItems, 
-    getCompletedItems, updateValue } from "./store.js"
+    getCompletedItems, updateValue, getItem } from "./store.js"
 
 /* This function renders the form for 
 adding a task to local storage. Storage-based functions 
@@ -178,139 +178,12 @@ function renderTasks(taskList) {
 
     for(const task of taskList){
         //card container
-        const cardContainer = document.createElement("div")
-        cardContainer.className = "task-card"
-        cardContainer.id = "c"+task._id
+        const newCard = document.createElement("div")
+        newCard.className = "task-card"
+        newCard.id = "c"+task._id
 
-        //card header container
-        const cardHeader = document.createElement("div")
-        cardHeader.className = "task-head"
-        cardContainer.appendChild(cardHeader)
-
-        //task title
-        const taskTitle = document.createElement("h3")
-        taskTitle.textContent = task._title
-        taskTitle.className = "card-title"
-        if(task._checked === true){
-            const strike = document.createElement("s")
-            strike.id = "s"+task._id
-            strike.appendChild(taskTitle)
-            cardHeader.appendChild(strike)
-        } else {
-            cardHeader.appendChild(taskTitle)
-        }
+        cardsContainer.appendChild(fillTaskCard(newCard, task))
         
-
-        //task due date
-        const taskDate = document.createElement("h4")
-        taskDate.textContent = lightFormat(task._dueDate, "dd-MM-yy")
-        taskDate.className = "task-sub"
-        cardHeader.appendChild(taskDate)
-
-        //task completed checkbox
-        const checkedContainer = document.createElement("div")
-        checkedContainer.className = "checkbox"
-        const checkbox = document.createElement("input")
-        checkbox.setAttribute("type","checkbox")
-        checkbox.id = "check-task"
-        if(task._checked === true){
-            checkbox.checked = true
-        }
-        const checkboxLabel = document.createElement("label")
-        checkboxLabel.htmlFor = "check-task"
-        checkboxLabel.className = "card-label"
-        checkboxLabel.textContent = "Completed?"
-
-        //add a strikethrough to title if checkbox is checked
-        checkbox.addEventListener("change", () => {
-            if(checkbox.checked){
-                task._checked = true
-                updateValue("task", task._id, "_checked", true)
-                const strike = document.createElement("s")
-                strike.id = "s"+task._id
-                cardHeader.replaceChild(strike, taskTitle)
-                strike.appendChild(taskTitle)
-
-            } else {
-                task._checked = false
-                updateValue("task", task._id, "_checked", false)
-                const strike = document.querySelector("#s"+task._id)
-                strike.remove()
-                cardHeader.insertBefore(taskTitle, cardHeader.firstChild)
-
-                console.log(task)
-            }
-        })
-
-        checkedContainer.appendChild(checkbox)
-        checkedContainer.appendChild(checkboxLabel)
-        cardHeader.appendChild(checkedContainer)
-
-        //task information container
-        const cardInfo = document.createElement("div")
-        cardInfo.className = "task-info"
-        cardContainer.appendChild(cardInfo)
-
-        //task description
-        const taskDescription = document.createElement("p")
-        taskDescription.textContent = task._description
-        taskDescription.className = "task-text"
-        cardInfo.appendChild(taskDescription)
-
-        //task priority
-        const taskPriority = document.createElement("p")
-        taskPriority.textContent = task._priority == "1" ? "High" :
-            task._priority == "2" ? "Medium" : "Low"
-        taskPriority.className = "priority"
-        cardInfo.appendChild(taskPriority)
-
-        //task notes container
-        const cardFooter = document.createElement("div")
-        cardFooter.className = "card-footer"
-        cardContainer.appendChild(cardFooter)
-
-        const cardNotes = document.createElement("div")
-        cardNotes.className = "card-notes"
-        cardFooter.appendChild(cardNotes)
-
-        //task notes label
-        const notesLabel = document.createElement("h5")
-        notesLabel.textContent = "Notes:"
-        notesLabel.className = "task-sub"
-        cardNotes.appendChild(notesLabel)
-        
-        //task notes content
-        const notesContent = document.createElement("p")
-        if(task._notes){
-            notesContent.textContent = task._notes
-        } else {
-            notesContent.textContent = "no notes recorded"
-        }
-        notesContent.className = "task-text"
-        cardNotes.appendChild(notesContent)
-
-        //edit and delete buttons
-        const actionsContainer = document.createElement("div")
-        actionsContainer.className = "btn-container"
-        
-
-        const editBtn = document.createElement("button")
-        editBtn.className = "edit"
-        editBtn.textContent = "edit"
-        actionsContainer.appendChild(editBtn)
-
-        editBtn.addEventListener("click", () => {
-            renderEditTask(task._id, task)
-        })
-
-        const deleteBtn = document.createElement("button")
-        deleteBtn.className = "delete"
-        deleteBtn.textContent = "delete"
-        actionsContainer.appendChild(deleteBtn)
-        cardFooter.appendChild(actionsContainer)
-        
-        //append card to page
-        cardsContainer.appendChild(cardContainer)
     }
 }
 
@@ -515,14 +388,10 @@ function renderEditTask(id, task){
             ? priorityInput.value : task._value)
         updateValue("task", task._id, "_notes", notesContent.value)
         updateValue("task", task._id, "_checked", checkbox.checked)
-        console.log(Date.parse(dateInput.value))
-        if(Date.parse(today) === Date.parse(dateInput.value)){
-            todayTasksGui()
-        } else if (Date.parse(today) < Date.parse(dateInput.value)) {
-            upcomingTasksGui()
-        } else {
-            completedTasksGui()
-        }
+        
+        const updatedTask = getItem("task", task._id)
+        console.log(updatedTask)
+        updateTaskCard(updatedTask)
         
     })
 
@@ -533,4 +402,143 @@ function renderEditTask(id, task){
         cardFooter.appendChild(actionsContainer)
         
 
+}
+
+function updateTaskCard(task){
+    const currentCard = document.querySelector("#c"+task._id)
+    
+    currentCard.innerHTML = ""
+    fillTaskCard(currentCard, task)
+
+}
+
+function fillTaskCard(cardContainer, task){
+    //card header container
+        const cardHeader = document.createElement("div")
+        cardHeader.className = "task-head"
+        cardContainer.appendChild(cardHeader)
+
+        //task title
+        const taskTitle = document.createElement("h3")
+        taskTitle.textContent = task._title
+        taskTitle.className = "card-title"
+        if(task._checked === true){
+            const strike = document.createElement("s")
+            strike.id = "s"+task._id
+            strike.appendChild(taskTitle)
+            cardHeader.appendChild(strike)
+        } else {
+            cardHeader.appendChild(taskTitle)
+        }
+        
+        //task due date
+        const taskDate = document.createElement("h4")
+        taskDate.textContent = lightFormat(task._dueDate, "dd-MM-yy")
+        taskDate.className = "task-sub"
+        cardHeader.appendChild(taskDate)
+
+        //task completed checkbox
+        const checkedContainer = document.createElement("div")
+        checkedContainer.className = "checkbox"
+        const checkbox = document.createElement("input")
+        checkbox.setAttribute("type","checkbox")
+        checkbox.id = "check-task"
+        if(task._checked === true){
+            checkbox.checked = true
+        }
+        const checkboxLabel = document.createElement("label")
+        checkboxLabel.htmlFor = "check-task"
+        checkboxLabel.className = "card-label"
+        checkboxLabel.textContent = "Completed?"
+
+        //add a strikethrough to title if checkbox is checked
+        checkbox.addEventListener("change", () => {
+            if(checkbox.checked){
+                task._checked = true
+                updateValue("task", task._id, "_checked", true)
+                const strike = document.createElement("s")
+                strike.id = "s"+task._id
+                cardHeader.replaceChild(strike, taskTitle)
+                strike.appendChild(taskTitle)
+
+            } else {
+                task._checked = false
+                updateValue("task", task._id, "_checked", false)
+                const strike = document.querySelector("#s"+task._id)
+                strike.remove()
+                cardHeader.insertBefore(taskTitle, cardHeader.firstChild)
+
+                console.log(task)
+            }
+        })
+
+        checkedContainer.appendChild(checkbox)
+        checkedContainer.appendChild(checkboxLabel)
+        cardHeader.appendChild(checkedContainer)
+
+        //task information container
+        const cardInfo = document.createElement("div")
+        cardInfo.className = "task-info"
+        cardContainer.appendChild(cardInfo)
+
+        //task description
+        const taskDescription = document.createElement("p")
+        taskDescription.textContent = task._description
+        taskDescription.className = "task-text"
+        cardInfo.appendChild(taskDescription)
+
+        //task priority
+        const taskPriority = document.createElement("p")
+        taskPriority.textContent = task._priority == "1" ? "High" :
+            task._priority == "2" ? "Medium" : "Low"
+        taskPriority.className = "priority"
+        cardInfo.appendChild(taskPriority)
+
+        //task notes container
+        const cardFooter = document.createElement("div")
+        cardFooter.className = "card-footer"
+        cardContainer.appendChild(cardFooter)
+
+        const cardNotes = document.createElement("div")
+        cardNotes.className = "card-notes"
+        cardFooter.appendChild(cardNotes)
+
+        //task notes label
+        const notesLabel = document.createElement("h5")
+        notesLabel.textContent = "Notes:"
+        notesLabel.className = "task-sub"
+        cardNotes.appendChild(notesLabel)
+        
+        //task notes content
+        const notesContent = document.createElement("p")
+        if(task._notes){
+            notesContent.textContent = task._notes
+        } else {
+            notesContent.textContent = "no notes recorded"
+        }
+        notesContent.className = "task-text"
+        cardNotes.appendChild(notesContent)
+
+        //edit and delete buttons
+        const actionsContainer = document.createElement("div")
+        actionsContainer.className = "btn-container"
+        
+
+        const editBtn = document.createElement("button")
+        editBtn.className = "edit"
+        editBtn.textContent = "edit"
+        actionsContainer.appendChild(editBtn)
+
+        editBtn.addEventListener("click", () => {
+            renderEditTask(task._id, task)
+        })
+
+        const deleteBtn = document.createElement("button")
+        deleteBtn.className = "delete"
+        deleteBtn.textContent = "delete"
+        actionsContainer.appendChild(deleteBtn)
+        cardFooter.appendChild(actionsContainer)
+        
+        //append card to page
+        return cardContainer
 }
