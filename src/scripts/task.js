@@ -53,7 +53,7 @@ class Task {
             throw new Error("invalid")
         }
         else{
-            this._dueDate = date.toISOString().split("T")[0];
+            this._dueDate = date;
         }
     }
     
