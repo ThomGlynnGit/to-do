@@ -111,6 +111,10 @@ export function addTaskGui(){
     notesContainer.appendChild(notesLabel)
     notesContainer.appendChild(notesInput)
 
+    //button container
+    const btnContainer = document.createElement("div")
+    btnContainer.className = "form-buttons"
+
     //clear button
     const clearBtn = document.createElement("button")
     clearBtn.setAttribute("type","button")
@@ -161,8 +165,9 @@ export function addTaskGui(){
     taskForm.appendChild(dateContainer)
     taskForm.appendChild(priorityContainer)
     taskForm.appendChild(notesContainer)
-    taskForm.appendChild(clearBtn)
-    taskForm.appendChild(submitBtn)
+    btnContainer.appendChild(clearBtn)
+    btnContainer.appendChild(submitBtn)
+    taskForm.appendChild(btnContainer)
     const contentSpace = document.querySelector(".content")
     contentSpace.appendChild(taskForm)
 
@@ -322,7 +327,7 @@ function renderEditTask(id, task){
     const optionHolder = document.createElement("option")
     optionHolder.value = task._priority
     optionHolder.textContent = `-- ${task._priority == "1" ? "High" :
-            task._priority == "2" ? "Medium" : "Low"} --`
+        task._priority == "2" ? "Medium" : "Low"} --`
     priorityInput.appendChild(optionHolder)
     const optionHigh = document.createElement("option")
     optionHigh.value = "1"
