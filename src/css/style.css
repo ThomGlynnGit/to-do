@@ -24,11 +24,17 @@ button {
     color: rgb(255, 255, 255);
     padding-left: 1.5rem;
     box-shadow: 1px 0px 7px 1px rgba(133,133,133,0.6);
-    position: relative;
+    
+}
+
+.nav-container {
+    position: sticky;
+    top: 4rem;
 }
 
 .nav-content {
     margin-top: 2rem;
+    
 }
 
 .nav-header {
@@ -71,6 +77,7 @@ button {
     color: #d1771d;
     border-radius: 10px;
     background-color: #edecec;
+    top: 10px;
     width: 99%;
     height: 90%;
     box-shadow: 2px 1px 3px 1px rgba(133,133,133,0.6);

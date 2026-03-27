@@ -309,7 +309,7 @@ function renderEditTask(id, task){
     //task information container
     const cardInfo = document.createElement("div")
     cardInfo.className = "task-info"
-    cardContainer.appendChild(cardInfo)
+    taskForm.appendChild(cardInfo)
 
     //task description
     const taskDescription = document.createElement("input")
@@ -348,7 +348,7 @@ function renderEditTask(id, task){
     //task notes container
     const cardFooter = document.createElement("div")
     cardFooter.className = "card-footer"
-    cardContainer.appendChild(cardFooter)
+    taskForm.appendChild(cardFooter)
 
     const cardNotes = document.createElement("div")
     cardNotes.className = "card-notes"
