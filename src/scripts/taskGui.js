@@ -14,6 +14,7 @@ export function addTaskGui(){
     const taskForm = document.createElement("form")
     taskForm.setAttribute("method","post")
     taskForm.setAttribute("action","#")
+    taskForm.className = "create-form"
 
     //text inputs
 
@@ -315,7 +316,7 @@ function renderEditTask(id, task){
 
     //task priority
     const priorityContainer = document.createElement("div")
-    priorityContainer.className = "input-container"
+    priorityContainer.className = "edit-container"
     const priorityInput = document.createElement("select")
     priorityInput.id = "p"+task._id
     const optionHolder = document.createElement("option")
