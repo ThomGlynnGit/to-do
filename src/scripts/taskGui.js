@@ -244,7 +244,7 @@ export function completedTasksGui() {
     
 }
 
-function clearPage(){
+export function clearPage(){
     const contentSpace = document.querySelector(".content")
     contentSpace.innerHTML = ""
 }

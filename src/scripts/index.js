@@ -2,6 +2,7 @@ import "../css/style.css";
 import "../css/form.css";
 import "../css/tasks.css";
 import { addTaskGui, todayTasksGui, upcomingTasksGui, completedTasksGui } from "./taskGui";
+import { addProjectGui } from "./projectGui";
 
 todayTasksGui()
 
@@ -25,4 +26,9 @@ upcomingButton.addEventListener("click", () => {
 const completedButton = document.querySelector("#completed")
 completedButton.addEventListener("click", () => {
     completedTasksGui()
+})
+
+const addProjectButton = document.querySelector("#add-project")
+addProjectButton.addEventListener("click", () => {
+    addProjectGui()
 })

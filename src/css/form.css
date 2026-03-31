@@ -13,13 +13,13 @@
     padding: 0.5rem;
 }
 
-.input-container :nth-child(2) {
+.input-container > :nth-child(2) {
     padding: 5px;
     border: solid 1px;
     border-radius: 10px;
 }
 
-.input-container :nth-child(2):focus {
+.input-container > :nth-child(2):focus {
     outline: 2px solid rgb(255, 162, 0);
 }
 
@@ -47,3 +47,14 @@
     background-color: rgb(136, 178, 111);
 }
 
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 8rem;
+    overflow-y: scroll;
+}
+
+.task-label {
+    display: flex;
+    gap: 10px;
+}

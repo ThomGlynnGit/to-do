@@ -1,4 +1,4 @@
-class Project {
+export default class Project {
     constructor(title, description, taskList) {
         this.title = title
         this.description = description
