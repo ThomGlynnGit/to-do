@@ -29,7 +29,7 @@ export function getItems(key){
     if(!itemExists(key)) return null
 
     const item = localStorage.getItem(key)
-    console.log(JSON.parse(item))
+
     try {
         return JSON.parse(item)
     } catch {
@@ -129,4 +129,61 @@ export function getCompletedItems(key){
         return items.filter((item) => (new Date(item._dueDate) < new Date(today)) 
             || item._checked == true)
     }
+}
+
+export function getRemainingTasks(){
+    const projects = getItems("project")
+    const tasks = getItems("task")
+    let remaining = []
+    let assigned = false
+    let projectList = []
+
+    //get list of all tasks assigned to a project
+    if(projects){
+        for(const project of projects){
+            for(const task of project._taskList){
+                projectList.push(task)
+            }
+        }
+    }
+    
+    //add all tasks not assigned to a project to list
+    if(tasks){
+        for(const task of tasks){
+            for(const assignedTask of projectList){
+                if(task._id === assignedTask){
+                    assigned = true
+                }
+            }
+            if(assigned === false){
+                remaining.push(task)
+            }
+            assigned = false
+        }
+    }
+
+    return remaining
+}
+
+export function getProjectTasks(id){
+    const project = getItem("project", id)
+    const tasks = getItems("task")
+    let projectTasks = []
+    let assigned = false
+
+    if(tasks){
+        for(const task of tasks){
+            for(const assignedTask of project._taskList){
+                if(task._id === assignedTask){
+                    assigned = true
+                }
+            }
+            if(assigned === true){
+                projectTasks.push(task)
+            }
+            assigned = false
+        }
+    }
+
+    return projectTasks
 }

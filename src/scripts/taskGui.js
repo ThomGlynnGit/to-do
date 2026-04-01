@@ -176,7 +176,7 @@ export function addTaskGui(){
 /* renders the task cards based 
 on a given list of tasks. Specific view functions
 are given below this function */
-function renderTasks(taskList) {
+export function renderTasks(taskList) {
     const cardsContainer = document.createElement("div")
     cardsContainer.className = "cards-container"
 

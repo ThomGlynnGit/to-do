@@ -1,5 +1,6 @@
-import { storageAvailable, getItems, addItem } from "./store.js"
-import { clearPage, todayTasksGui } from "./taskGui.js"
+import { storageAvailable, getItems, addItem, 
+    getRemainingTasks, getProjectTasks } from "./store.js"
+import { clearPage, renderTasks } from "./taskGui.js"
 import Project from "./project.js"
 
 /* This function renders the form for 
@@ -57,9 +58,9 @@ export function addProjectGui(){
     tasksContainer.appendChild(tasksLabel)
     tasksContainer.appendChild(tasksInput)
 
-    const taskList = getItems("task")
+    const remainingTasks = getRemainingTasks()
 
-    for(const task of taskList){
+    for(const task of remainingTasks){
         const optionContainer = document.createElement("div")
         optionContainer.className = "option-container"
         const option = document.createElement("input")
@@ -111,6 +112,7 @@ export function addProjectGui(){
             } 
 
             projectForm.reset()
+            addProjectToSidebar(project)
         } catch (err) {
             console.log(err.message)
         }
@@ -141,4 +143,23 @@ function getCheckedTasks(element) {
     }
 
     return optionsList
+}
+
+function addProjectToSidebar(project){
+    const projectNav = document.querySelector("#project-nav")
+
+    const listElem = document.createElement("li")
+    listElem.className = "filter"
+    const projectBtn = document.createElement("button")
+    projectBtn.id = "pb"+project._id
+    projectBtn.textContent = project._title
+
+    projectBtn.addEventListener("click", () => {
+        clearPage()
+        renderTasks(getProjectTasks(project._id))
+    })
+
+    listElem.appendChild(projectBtn)
+    projectNav.insertBefore(listElem, projectNav.firstChild)
+
 }
